@@ -1,16 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/anecdoteReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const AnecdoteForm = () => {
+const AnecdoteForm = (props) => {
 
-    const dispatch = useDispatch()
-
-    const addBlog = (event) => {
+    const addBlog = async (event) => {
     event.preventDefault()
     const content = event.target.blog.value
     event.target.blog.value = ''
-      dispatch(
-        createBlog(content))
+    props.createBlog(content)
+    props.setNotification(`you created '${content}'`, 10)
   }
   return (
     <div>
@@ -20,6 +19,7 @@ const AnecdoteForm = () => {
   <button type="submit">create</button>
 </form></div>
 )}
+//Toimiiko nyt
 
-export default AnecdoteForm
+export default connect(null, {createBlog, setNotification} )(AnecdoteForm) 
 
